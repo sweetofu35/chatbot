@@ -18,6 +18,9 @@ if 'logged_in' not in st.session_state:
 if 'openai_api_key' not in st.session_state:
     st.session_state.openai_api_key = ""
 
+if 'username' not in st.session_state:
+    st.session_state.username = ""
+
 if not st.session_state.logged_in: # 로그인 화면
     st.title("코디 추천 앱 demo")
 
@@ -72,11 +75,32 @@ if st.session_state.logged_in: # 로그인 시 다음 페이지로 이동
                 st.rerun()
         
         if st.session_state.page == 1:
+            st.write(f"{st.session_state.username}님의 정보")
             st.write(f"성별 : {st.session_state.gender}")
             st.write(f"인종 : {st.session_state.race}")
             st.write(f"상의 사이즈 : {st.session_state.top}")
             st.write(f"하의 사이즈 : {st.session_state.bottom}")
             st.write(f"발 사이즈 : {st.session_state.foot}")
+            st.write("입력한 내용이 확실합니까?")
+            if st.button("예"):
+                st.session_state.page = 2
+                st.rerun()
+            if st.button("아니오"):
+                st.session_state.page = 0
+                st.rerun()
+
+        if st.session_state.page == 2:
+            st.write("(선택) 가지고 있는 옷 정보를 입력하시겠습니까? (나중에 언제든지 다시 입력할 수 있습니다.)")
+            if st.button("예"):
+                st.session_state.page = 3
+                st.rerun()
+            if st.button("아니오"):
+                st.session_state.is_first = False
+                st.session_state.page = 0
+                st.rerun()
+
+        if st.session_state.page == 3:
+            st.write("옷 정보 입력하는 화면")
 
         
     else: # 재방문 시 메인 페이지로 이동
