@@ -38,11 +38,16 @@ if not st.session_state.logged_in:
                 st.error("아이디 또는 비밀번호가 잘못되었습니다.")
 
 if st.session_state.logged_in:
-    st.title("사전 세팅")
+    is_first = True
     openai_api_key =""
     for key, value in st.session_state.items():
         if key == "openai_api_key": openai_api_key = value
 
     client = OpenAI(api_key=openai_api_key)
-    st.session_state
+    for k,v in user_is_first.items():
+        if  k == st.session_state['username']: is_first = v
+    if is_first:
+        st.title("사전 세팅")
+    else:
+        st.title("부가 정보")
 
