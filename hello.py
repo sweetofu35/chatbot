@@ -21,6 +21,9 @@ if 'openai_api_key' not in st.session_state:
 if 'username' not in st.session_state:
     st.session_state.username = ""
 
+if 'check' not in st.session_state:
+    st.session_state.check = ""
+
 if not st.session_state.logged_in: # 로그인 화면
     st.title("코디 추천 앱 demo")
 
@@ -49,9 +52,11 @@ if st.session_state.logged_in: # 로그인 시 다음 페이지로 이동
     client = OpenAI(api_key=openai_api_key)
     for key, value in user_is_first.items():
         if  key == st.session_state['username']: st.session_state.is_first = value
+
+    st.session_state.check = "two"
     if st.session_state.is_first: # 첫 방문 시 사전 정보 입력 페이지로 이동
-        if not st.session_state.is_first: rerun()
         st.title("사전 정보 입력")
+        st.session_state.check
         if "page" not in st.session_state:
             st.session_state.page = 0
         if "gender" not in st.session_state:
@@ -99,6 +104,7 @@ if st.session_state.logged_in: # 로그인 시 다음 페이지로 이동
                 user_is_first[f"{st.session_state.username}"] = False
                 st.session_state.is_first = False
                 st.session_state.page = 0
+                st.session_state.check = "one"
                 st.rerun()
 
         if st.session_state.page == 3:
