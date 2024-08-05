@@ -109,7 +109,7 @@ if st.session_state.logged_in: # 로그인 시 다음 페이지로 이동
                 user_is_first[f"{st.session_state.username}"] = False
                 new_text = str(user_is_first)
                 with open('./user_is_first.txt','w',encoding='UTF-8') as f:
-                    f.write(f)
+                    f.write(new_text)
                 st.session_state.page = 0
                 st.session_state.check = "one"
                 st.rerun()
