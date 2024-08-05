@@ -98,7 +98,8 @@ if st.session_state.logged_in: # 로그인 시 다음 페이지로 이동
                 user_is_first[f"{st.session_state.username}"] = False
                 #st.session_state.is_first = False
                 st.session_state.page = 0
-                st.rerun()
+                user_is_first
+                #st.rerun()
 
         if st.session_state.page == 3:
             st.write("옷 정보 입력하는 화면")
