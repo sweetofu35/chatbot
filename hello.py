@@ -1,7 +1,12 @@
 import streamlit as st
 from openai import OpenAI
+import ast
 
-user_account = {"user":"1234", "user2":"0000"} #계정 정보
+with open('./user_account.txt','r',encoding='UTF-8') as f:
+    user_account = ast.literal_eval(f.read())
+
+user_account
+#user_account = {"user":"1234", "user2":"0000"} #계정 정보
 user_is_first = {"user":False, "user2":True} #고객의 첫 방문 여부
 user_info = {"user":["여성","동양인",95,28,255]} #[성별, 인종, 상의 사이즈, 허리 사이즈, 신발 사이즈]
 user_info_optional = {"user":[["상의","니트","ivory"],["하의","청바지","denim_blue"],["신발","운동화","black"]]} #[[옷 구분1, 옷 종류1, 색상1], [옷 구분2, 옷 종류2, 색상2], ...]
