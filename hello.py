@@ -15,5 +15,5 @@ else:
         st.session_state.openai_api_key = openai_api_key
 
     if st.session_state.openai_api_key:
-        st.session_state
+        st.title("환영합니다")
         st.write("hello")
