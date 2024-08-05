@@ -26,9 +26,6 @@ if 'openai_api_key' not in st.session_state:
 if 'username' not in st.session_state:
     st.session_state.username = ""
 
-if 'check' not in st.session_state:
-    st.session_state.check = ""
-
 if not st.session_state.logged_in: # 로그인 화면
     st.title("코디 추천 앱 demo")
 
@@ -57,8 +54,6 @@ if st.session_state.logged_in: # 로그인 시 다음 페이지로 이동
     client = OpenAI(api_key=openai_api_key)
     for key, value in user_is_first.items():
         if  key == st.session_state['username']: st.session_state.is_first = value
-    if (st.session_state.check == "one"):
-        st.session_state.check = "two"
     if st.session_state.is_first: # 첫 방문 시 사전 정보 입력 페이지로 이동
         st.title("사전 정보 입력")
         st.session_state.check
@@ -85,7 +80,7 @@ if st.session_state.logged_in: # 로그인 시 다음 페이지로 이동
                 st.session_state.page = 1
                 st.rerun()
         
-        if st.session_state.page == 1:
+        if st.session_state.page == 1: # 입력한 정보 확인 페이지
             st.write(f"{st.session_state.username}님의 정보")
             st.write(f"성별 : {st.session_state.gender}")
             st.write(f"인종 : {st.session_state.race}")
@@ -100,7 +95,7 @@ if st.session_state.logged_in: # 로그인 시 다음 페이지로 이동
                 st.session_state.page = 0
                 st.rerun()
 
-        if st.session_state.page == 2:
+        if st.session_state.page == 2: # 옷 정보 입력 선택 페이지
             st.write("(선택) 가지고 있는 옷 정보를 입력하시겠습니까? (나중에 언제든지 다시 입력할 수 있습니다.)")
             if st.button("예"):
                 st.session_state.page = 3
@@ -110,8 +105,6 @@ if st.session_state.logged_in: # 로그인 시 다음 페이지로 이동
                 new_text = str(user_is_first)
                 with open('./user_is_first.txt','w',encoding='UTF-8') as f:
                     f.write(new_text)
-                st.session_state.page = 0
-                st.session_state.check = "one"
                 st.rerun()
 
         if st.session_state.page == 3:
@@ -120,5 +113,21 @@ if st.session_state.logged_in: # 로그인 시 다음 페이지로 이동
         
     else: # 재방문 시 메인 페이지로 이동
         st.title("메인 페이지")
+        if main_page not in st.session_state:
+            st.session_state.main_page = 0
+        if st.session_state.main_page == 0:
+            st.session_state.outing = st.selectbox("오늘은 무슨 일로 외출하시나요?",("가족 모임", "친구들 모임 or 동창회", "생일파티", "데이트", "학교", "아르바이트"))
+            st.session_state.where = st.text_input("목적지를 알려주세요!")
+            st.session_state.time = st.time_input("시간 선택")
+            st.session_state.item = st.text_input("착용하고 싶은 아이템이 있나요?")
+            if st.button("옷 추천"):
+                st.session_state.main_page = 1
+                st.rerun()
+        
+        if st.session_state.main_page == 1:
+            st.write(f"외출 목적 : {st.session_state.outing}")
+            st.write(f"목적지 : {st.session_state.where}")
+            st.write(f"시간 : {st.session_state.time}")
+            st.write(f"착용 아이템 : {st.session_state.item}")
 
 
