@@ -3,7 +3,7 @@ from openai import OpenAI
 
 user_account = {"user":"1234", "user2":"0000"} #계정 정보
 user_is_first = {"user":False, "user2":True} #고객의 첫 방문 여부
-user_info = {"user":[95,28,255,"여성","동양인"]} #[상의 사이즈, 허리 사이즈, 신발 사이즈, 성별, 인종]
+user_info = {"user":["여성","동양인",95,28,255]} #[성별, 인종, 상의 사이즈, 허리 사이즈, 신발 사이즈]
 user_info_optional = {"user":[["상의","니트","ivory"],["하의","청바지","denim_blue"],["신발","운동화","black"]]} #[[옷 구분1, 옷 종류1, 색상1], [옷 구분2, 옷 종류2, 색상2], ...]
 
 def login(username, password):
@@ -48,15 +48,35 @@ if st.session_state.logged_in: # 로그인 시 다음 페이지로 이동
         if  key == st.session_state['username']: is_first = value
     if is_first: # 첫 방문 시 사전 정보 입력 페이지로 이동
         st.title("사전 정보 입력")
-        if 'info_1' or 'info_2' not in st.session_state:
-            st.session_state.info_1 = True
-            st.session_state.info_2 = False
-        if st.session_state.info_1:
-            gender = st.radio("성별을 선택해주세요",["**남성**", "**여성**"])
-            race = st.radio("인종을 선택해주세요",["**동양인**", "**서양인**"])
-            top = st.select_slider("상의 사이즈를 입력해주세요",options = [80,85,90,95,100,105,110,115,120,125,130])
-            bottom = st.slider("하의 사이즈를 입력해주세요", 24, 35)
-            foot = st.select_slider("발 사이즈를 입력해주세요", options = [230,235,240,245,250,255,260,265,270,275,280,285])
+        if "page" not in st.session_state:
+            st.session_state.page = 0
+        if "gender" not in st.session_state:
+            st.session_state.gender = ""
+        if "race" not in st.session_state:
+            st.session_state.race = ""
+        if "top" not in st.session_state:
+            st.session_state.top = 0
+        if "bottom" not in st.session_state:
+            st.session_state.bottom = 0
+        if "foot" not in st.session_state:
+            st.session_state.foot = 0
+        if st.session_state.page == 0:
+            st.session_state.gender = st.radio("성별을 선택해주세요",["**남성**", "**여성**"])
+            st.session_state.race = st.radio("인종을 선택해주세요",["**동양인**", "**서양인**"])
+            st.session_state.top = st.select_slider("상의 사이즈를 입력해주세요",options = [80,85,90,95,100,105,110,115,120,125,130])
+            st.session_state.bottom = st.slider("하의 사이즈를 입력해주세요", 24, 35)
+            st.session_state.foot = st.select_slider("발 사이즈를 입력해주세요", options = [230,235,240,245,250,255,260,265,270,275,280,285])
+
+            if st.button("다음"):
+                st.session_state.page = 1
+                st.rerun()
+        
+        if st.session_state.page == 1:
+            st.write(f"성별 : {st.session_state.gender}")
+            st.write(f"인종 : {st.session_state.race}")
+            st.write(f"상의 사이즈 : {st.session_state.top}")
+            st.write(f"하의 사이즈 : {st.session_state.bottom}")
+            st.write(f"발 사이즈 : {st.session_state.foot}")
 
         
     else: # 재방문 시 메인 페이지로 이동
