@@ -12,6 +12,7 @@ if not st.session_state.logged_in:
         st.info("Please add your OpenAI API key to continue.", icon="🗝️")
     else:
         st.session_state.logged_in = True
+        st.rerun()
 
 if st.session_state.logged_in:
     st.title("환영합니다")
