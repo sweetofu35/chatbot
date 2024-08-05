@@ -113,7 +113,7 @@ if st.session_state.logged_in: # 로그인 시 다음 페이지로 이동
         
     else: # 재방문 시 메인 페이지로 이동
         st.title("메인 페이지")
-        if main_page not in st.session_state:
+        if "main_page" not in st.session_state:
             st.session_state.main_page = 0
         if st.session_state.main_page == 0:
             st.session_state.outing = st.selectbox("오늘은 무슨 일로 외출하시나요?",("가족 모임", "친구들 모임 or 동창회", "생일파티", "데이트", "학교", "아르바이트"))
