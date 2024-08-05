@@ -55,7 +55,7 @@ if st.session_state.logged_in: # 로그인 시 다음 페이지로 이동
             gender = st.radio("성별을 선택해주세요",["**남성**", "**여성**"])
             race = st.radio("인종을 선택해주세요",["**동양인**", "**서양인**"])
             top = st.select_slider("상의 사이즈를 입력해주세요",options = [80,85,90,95,100,105,110,115,120,125,130])
-            bottom = st.select_slider("하의 사이즈를 입력해주세요", options = (24,35))
+            bottom = st.slider("하의 사이즈를 입력해주세요", options = (24,35))
             foot = st.select_slider("발 사이즈를 입력해주세요", options = [230,235,240,245,250,255,260,265,270,275,280,285])
 
         
