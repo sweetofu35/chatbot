@@ -3,13 +3,13 @@ from openai import OpenAI
 import ast
 
 with open('./user_account.txt','r',encoding='UTF-8') as f:
-    user_account = ast.literal_eval(f.read())
-
-user_account
-#user_account = {"user":"1234", "user2":"0000"} #계정 정보
-user_is_first = {"user":False, "user2":True} #고객의 첫 방문 여부
-user_info = {"user":["여성","동양인",95,28,255]} #[성별, 인종, 상의 사이즈, 허리 사이즈, 신발 사이즈]
-user_info_optional = {"user":[["상의","니트","ivory"],["하의","청바지","denim_blue"],["신발","운동화","black"]]} #[[옷 구분1, 옷 종류1, 색상1], [옷 구분2, 옷 종류2, 색상2], ...]
+    user_account = ast.literal_eval(f.read()) #계정 정보
+with open('./user_is_first.txt','r',encoding='UTF-8') as f:
+    user_is_first = ast.literal_eval(f.read()) #고객의 첫 방문 여부
+with open('./user_info.txt','r',encoding='UTF-8') as f:
+    user_info = ast.literal_eval(f.read()) #[성별, 인종, 상의 사이즈, 허리 사이즈, 신발 사이즈]
+with open('./user_info_optional.txt','r',encoding='UTF-8') as f:
+    user_info_optional = ast.literal_eval(f.read())#[[옷 구분1, 옷 종류1, 색상1], [옷 구분2, 옷 종류2, 색상2], ...]
 
 def login(username, password):
     if username in user_account and user_account[username] == password:
@@ -107,7 +107,9 @@ if st.session_state.logged_in: # 로그인 시 다음 페이지로 이동
                 st.rerun()
             if st.button("아니오"):
                 user_is_first[f"{st.session_state.username}"] = False
-                st.session_state.is_first = False
+                new_text = str(user_is_first)
+                with open('./user_is_first.txt','w',encoding='UTF-8') as f:
+                    f.write(f)
                 st.session_state.page = 0
                 st.session_state.check = "one"
                 st.rerun()
