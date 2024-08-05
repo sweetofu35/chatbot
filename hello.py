@@ -53,7 +53,10 @@ if st.session_state.logged_in: # 로그인 시 다음 페이지로 이동
             st.session_state.info_2 = False
         if st.session_state.info_1:
             gender = st.radio("성별을 선택해주세요",["**남성**", "**여성**"])
-
+            race = st.radio("인종을 선택해주세요",["**동양인**", "**서양인**"])
+            top = st.input("상의 사이즈를 입력해주세요")
+            bottom = st.input("하의 사이즈를 입력해주세요")
+            foot = st.input("발 사이즈를 입력해주세요")
 
         
     else: # 재방문 시 메인 페이지로 이동
