@@ -14,4 +14,5 @@ else:
     if 'openai_api_key' not in st.session_state:
         st.session_state.openai_api_key = openai_api_key
 
-    st.session_state
+    if st.session_state.openai_api_key:
+        st.session_state
