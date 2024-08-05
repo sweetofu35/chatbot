@@ -18,7 +18,7 @@ if 'logged_in' not in st.session_state:
 if 'openai_api_key' not in st.session_state:
     st.session_state.openai_api_key = ""
 
-if not st.session_state.logged_in:
+if not st.session_state.logged_in: # 로그인 화면
     st.title("코디 추천 앱 demo")
 
     openai_api_key = st.text_input("OpenAI API Key", type="password")
@@ -37,17 +37,26 @@ if not st.session_state.logged_in:
             else:
                 st.error("아이디 또는 비밀번호가 잘못되었습니다.")
 
-if st.session_state.logged_in:
+if st.session_state.logged_in: # 로그인 시 다음 페이지로 이동
     is_first = True
     openai_api_key =""
     for key, value in st.session_state.items():
         if key == "openai_api_key": openai_api_key = value
 
     client = OpenAI(api_key=openai_api_key)
-    for k,v in user_is_first.items():
-        if  k == st.session_state['username']: is_first = v
-    if is_first:
-        st.title("사전 세팅")
-    else:
-        st.title("부가 정보")
+    for key, value in user_is_first.items():
+        if  key == st.session_state['username']: is_first = value
+    if is_first: # 첫 방문 시 사전 정보 입력 페이지로 이동
+        st.title("사전 정보 입력")
+        if 'info_1' or 'info_2' not in st.session_state:
+            st.session_state.info_1 = True
+            st.session_state.info_2 = False
+        if st.session_state.info_1:
+            gender = st.radio("성별을 선택해주세요",["**남성**", "**여성**"])
+
+
+        
+    else: # 재방문 시 메인 페이지로 이동
+        st.title("메인 페이지")
+
 
